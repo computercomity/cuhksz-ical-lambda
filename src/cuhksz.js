@@ -1,15 +1,15 @@
-import sign from 'jsonwebtoken';
+let jwt = require('jsonwebtoken');
 
 /**
  * Generate data needed by CUHK-Shenzhen Weixiao Platform
  * @param {string} userToken: user token
  * @param {array} extraData: data needed in array
- * @return {string} jwt signed token
+ * @return {object} jwt signed token
  */
 export function buildData(userToken, extraData) {
     let data = {token: userToken};
-    data = data.concat(extraData);
-    let token = sign(data, process.env.appSecret, {expiresIn: '5mins'});
+    data = data + extraData;
+    let token = jwt.sign(data, process.env.appSecret, {expiresIn: '5mins'});
     return token;
 };
 /**
