@@ -1,4 +1,11 @@
-let jwt = require('jsonwebtoken');
+import * as jwt from 'jsonwebtoken';
+
+function encodeQueryData(data) {
+    let ret = [];
+    for (let d in data)
+      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+    return ret.join('&');
+ }
 
 /**
  * Generate data needed by CUHK-Shenzhen Weixiao Platform
@@ -8,8 +15,10 @@ let jwt = require('jsonwebtoken');
  */
 export function buildData(userToken, extraData) {
     let data = {token: userToken};
-    data = data + extraData;
-    let token = jwt.sign(data, process.env.appSecret, {expiresIn: '5mins'});
+    let secret = process.env.appSecret || 'secret';
+    data = Object.assign(data, extraData);
+    console.log(data);
+    let token = jwt.sign(data, secret, {expiresIn: '5m'});
     return token;
 };
 /**
@@ -20,7 +29,7 @@ export function buildData(userToken, extraData) {
  * @return {string}: url to visit
  */
 export function buildUrl(route, userToken, data) {
-    let queryComponent = encodeURIComponent({
+    let queryComponent = encodeQueryData({
         client_id: process.env.appId,
         data: buildData(userToken, data),
     });

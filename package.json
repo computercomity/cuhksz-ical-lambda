@@ -23,6 +23,7 @@
     "eslint-config-google": "^0.9.1"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^7.2.8",
     "jsonwebtoken": "^8.3.0",
     "netlify-lambda": "^0.4.0"
   }

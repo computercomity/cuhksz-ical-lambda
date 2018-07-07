@@ -535,9 +535,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 exports.handler = function (event, context, callback) {
   callback(null, {
-    // statusCode: 302,
-    // headers: { location: cuhksz. }
-    body: JSON.stringify({ url: cuhksz.buildUrl('a', 'a') })
+    statusCode: 302,
+    headers: { location: cuhksz.buildUrl('/', 'aba') },
+    body: ''
   });
 };
 
@@ -551,10 +551,24 @@ exports.handler = function (event, context, callback) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 exports.buildData = buildData;
 exports.buildUrl = buildUrl;
 exports.get = get;
-let jwt = __webpack_require__(15);
+
+var _jsonwebtoken = __webpack_require__(15);
+
+var jwt = _interopRequireWildcard(_jsonwebtoken);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function encodeQueryData(data) {
+    let ret = [];
+    for (let d in data) ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+    return ret.join('&');
+}
 
 /**
  * Generate data needed by CUHK-Shenzhen Weixiao Platform
@@ -564,8 +578,10 @@ let jwt = __webpack_require__(15);
  */
 function buildData(userToken, extraData) {
     let data = { token: userToken };
-    data = data + extraData;
-    let token = jwt.sign(data, process.env.appSecret, { expiresIn: '5mins' });
+    let secret = process.env.appSecret || 'secret';
+    data = _extends(data, extraData);
+    console.log(data);
+    let token = jwt.sign(data, secret, { expiresIn: '5m' });
     return token;
 };
 /**
@@ -576,7 +592,7 @@ function buildData(userToken, extraData) {
  * @return {string}: url to visit
  */
 function buildUrl(route, userToken, data) {
-    let queryComponent = encodeURIComponent({
+    let queryComponent = encodeQueryData({
         client_id: process.env.appId,
         data: buildData(userToken, data)
     });
