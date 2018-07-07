@@ -1,0 +1,27 @@
+{
+  "name": "cuhksz-ical-lambda",
+  "version": "1.0.0",
+  "description": "AWS Lambda Functions of CUHK-Shenzhen iCal Lambda",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/computercomity/cuhksz-ical-lambda.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/computercomity/cuhksz-ical-lambda/issues"
+  },
+  "homepage": "https://github.com/computercomity/cuhksz-ical-lambda#readme",
+  "devDependencies": {
+    "eslint": "^5.0.1",
+    "eslint-config-google": "^0.9.1"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.3.0",
+    "netlify-lambda": "^0.4.0"
+  }
+}
