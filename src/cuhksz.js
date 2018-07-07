@@ -9,7 +9,7 @@ import sign from 'jsonwebtoken';
 export function buildData(userToken, extraData) {
     let data = {token: userToken};
     data = data.concat(extraData);
-    let token = sign(data, appSecret, {expiresIn: '5mins'});
+    let token = sign(data, process.env.appSecret, {expiresIn: '5mins'});
     return token;
 };
 /**
@@ -21,10 +21,10 @@ export function buildData(userToken, extraData) {
  */
 export function buildUrl(route, userToken, data) {
     let queryComponent = encodeURIComponent({
-        client_id: appId,
+        client_id: process.env.appId,
         data: buildData(userToken, data),
     });
-    return appUrl + route + '?' + queryComponent;
+    return process.env.appUrl + route + '?' + queryComponent;
 }
 
 /**
@@ -36,5 +36,5 @@ export function buildUrl(route, userToken, data) {
  */
 export function get(route, userToken, data, callback) {
     let url = appUrl + route;
-    
+
 }
